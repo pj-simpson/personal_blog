@@ -1,0 +1,24 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block title_block %}
+    {{post.title}}
+{% endblock %}
+
+{% block body %}
+<div class="blog-post">
+    <h2 class="blog-post-title">{{post.title}}</h2>
+    <p class="blog-post-meta">{{post.created}} by {{post.author}}</p>
+    {{ post.content|safe }}
+    {% if perms.blog.can_change_post %}
+        <a class="btn btn-outline-danger" href="{% url "post_edit" post.pk %}">Edit</a>
+    {% endif %}
+</div>
+{% endblock body %}
+
+
+
+
+
+
+
