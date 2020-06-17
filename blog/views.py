@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
@@ -6,11 +7,11 @@ from blog.models import Post
 
 
 
-class PostCreateView(CreateView):
+class PostCreateView(PermissionRequiredMixin,CreateView):
     model = Post
+    permission_required = ("posts.add_post",)
     fields = ["title", "content"]
     # success_message = "Blog Post Successfully Created!"
-    permission_required = "posts.add_post"
     context_object_name = "post"
 
     def form_valid(self, form):
@@ -29,7 +30,7 @@ class PostListView(ListView):
 class PostDetailView(DetailView):
     model = Post
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(PermissionRequiredMixin,UpdateView):
     model = Post
     fields = ["title", "content"]
     # success_message = "Blog Post Successfully Updated!"
