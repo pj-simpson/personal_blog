@@ -5,6 +5,20 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 
+from django.utils.translation import ugettext_lazy as _
+
+from taggit.managers import TaggableManager
+from taggit.models import GenericUUIDTaggedItemBase, TaggedItemBase
+
+class UUIDTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
+    # If you only inherit GenericUUIDTaggedItemBase, you need to define
+    # a tag field. e.g.
+    # tag = models.ForeignKey(Tag, related_name="uuid_tagged_items", on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = _("Tag")
+        verbose_name_plural = _("Tags")
+
 
 class Post(models.Model):
     id = models.UUIDField(
@@ -17,6 +31,7 @@ class Post(models.Model):
     content = RichTextUploadingField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    tags = TaggableManager(through=UUIDTaggedItem)
 
     def __str__(self):
         return self.title

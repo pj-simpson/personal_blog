@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'ckeditor',
     'ckeditor_uploader',
+    'taggit',
 
     'users.apps.UsersConfig',
     'blog.apps.BlogConfig',

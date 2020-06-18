@@ -13,16 +13,16 @@ def add_user():
 
 @pytest.fixture(scope='function')
 def add_post():
-    def _add_post(title,author,content):
+    def _add_post(title,author,content, tags):
         post = Post.objects.create(title=title,author=author,
-                                   content=content)
+                                   content=content, tags=tags)
         return post
     return _add_post
 
 @pytest.mark.django_db
 def test_post_model(add_user,add_post):
     user = add_user(email = 'testy@email.com',password = 'testpass123')
-    post = add_post(title = "test",author = user,content = 'test test test')
+    post = add_post(title = "test",author = user,content = 'test test test',tags='tag1,tag2')
 
 
     assert post.author == user
@@ -33,7 +33,7 @@ def test_post_model(add_user,add_post):
 @pytest.mark.django_db
 def test_update_post_model(add_user,add_post):
     user = add_user(email = 'testy@email.com',password = 'testpass123')
-    post = add_post(title = "test",author = user,content = 'test test test')
+    post = add_post(title = "test",author = user,content = 'test test test',tags='tag1,tag2')
 
     assert str(post) == post.title
     assert post.content == 'test test test'
@@ -44,5 +44,8 @@ def test_update_post_model(add_user,add_post):
     assert post.title == 'updated'
     assert post.content == 'update update update'
     assert post.updated > post.created
+
+
+
 
 

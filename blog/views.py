@@ -10,7 +10,7 @@ from blog.models import Post
 class PostCreateView(PermissionRequiredMixin,CreateView):
     model = Post
     permission_required = ("posts.add_post",)
-    fields = ["title", "content"]
+    fields = ["title", "content", "tags"]
     # success_message = "Blog Post Successfully Created!"
     context_object_name = "post"
 
@@ -32,6 +32,6 @@ class PostDetailView(DetailView):
 
 class PostUpdateView(PermissionRequiredMixin,UpdateView):
     model = Post
-    fields = ["title", "content"]
+    fields = ["title", "content", "tags"]
     # success_message = "Blog Post Successfully Updated!"
     permission_required = "posts.update_post"
