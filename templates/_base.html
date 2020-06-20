@@ -63,7 +63,8 @@
      <div class="p-4 mb-3 bg-light rounded">
         {% get_taglist as tags %}
          {% for tag in tags %}
-             <a href="{% url "post_list_by_tag" tag.slug %}">
+
+             <a href="{% url "post_list_by_tag" tag.slug %}" class="badge badge-primary">
                 {{ tag.name }}
              </a><br/>
          {% endfor %}

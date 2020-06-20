@@ -6,7 +6,12 @@
 {% block body %}
 
     {% if tag %}
-      <h2>Posts tagged with "{{ tag }}"</h2>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url "post_list" %}">Blog</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ tag }}</li>
+          </ol>
+        </nav>
     {% endif %}
 
     {% for post in post_list %}
