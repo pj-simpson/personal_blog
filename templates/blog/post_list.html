@@ -4,6 +4,11 @@
 
 
 {% block body %}
+
+    {% if tag %}
+      <h2>Posts tagged with "{{ tag }}"</h2>
+    {% endif %}
+
     {% for post in post_list %}
     <div class="row mb-2">
         <div class="col-md-12">

@@ -9,6 +9,9 @@
 </head>
 <body>
 
+{% load taggit_templatetags2_tags %}
+
+
 <div class="container">
   <header class="blog-header py-3">
     <div class="row flex-nowrap justify-content-between align-items-center">
@@ -58,7 +61,12 @@
 
     <aside class="col-md-4 blog-sidebar">
      <div class="p-4 mb-3 bg-light rounded">
-        <h4 class="font-italic">Sidebar</h4>
+        {% get_taglist as tags %}
+         {% for tag in tags %}
+             <a href="{% url "post_list_by_tag" tag.slug %}">
+                {{ tag.name }}
+             </a><br/>
+         {% endfor %}
 
       </div>
     </aside>

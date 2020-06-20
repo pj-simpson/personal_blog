@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'taggit',
+    'taggit_templatetags2',
 
     'users.apps.UsersConfig',
     'blog.apps.BlogConfig',
