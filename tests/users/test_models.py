@@ -1,14 +1,12 @@
 import pytest
-
-from users.models import CustomUser
+from pytest_django.fixtures import django_user_model
 
 
 @pytest.mark.django_db
-def test_movie_model():
-    user = CustomUser(email='testy@email.com',
-            password='testpass123')
-    user.save()
-    assert user.email == "testy@email.com"
-    assert user.password == "testpass123"
+def test_user_model(add_user_no_permissions):
+    user = add_user_no_permissions(username='testy@email.com', password='testpass123')
+
+    assert user.username == "testy@email.com"
+    assert user.password
 
 
