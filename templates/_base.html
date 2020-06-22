@@ -6,11 +6,9 @@
   <title>{% block title %}Peter's Site{% endblock title %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" integrity="sha256-BJ/G+e+y7bQdrYkS2RBTyNfBHpA9IuGaPmf9htub5MQ=" crossorigin="anonymous" />
 </head>
 <body>
-
-{% load taggit_templatetags2_tags %}
-
 
 <div class="container">
   <header class="blog-header py-3">
@@ -19,25 +17,25 @@
         <a class="blog-header-logo text-dark" href="{% url 'home' %}">Peter Simpson</a>
       </div>
       <div class="col-4 d-flex justify-content-end align-items-center">
-      {% if user.is_authenticated %}
+      {% if user.is_authenticated and user.is_superuser %}
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{ user.username }}
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
-              <a class="dropdown-item" href="#">My account</a>
-              <a class="dropdown-item" href="#">Change password</a>
+              <a class="dropdown-item" href="{% url 'account_change_password' %}">Change password</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="{% url 'account_logout' %}">Log out</a>
             </div>
           </li>
         </ul>
       {% else %}
-        <form class="form-inline ml-auto my-2">
-          <a href="{% url 'account_login' %}" class="btn btn-outline-secondary" >Log in</a>
-          <a href="{% url 'account_signup' %}" class="btn btn-primary ml-2">Sign up</a>
-        </form>
+{#          The blog is just for me so we dont want people signing up!#}
+{#        <form class="form-inline ml-auto my-2">#}
+{#          <a href="{% url 'account_login' %}" class="btn btn-outline-secondary" >Log in</a>#}
+{#          <a href="{% url 'account_signup' %}" class="btn btn-primary ml-2">Sign up</a>#}
+{#        </form>#}
       {% endif %}
       </div>
     </div>
@@ -53,24 +51,14 @@
 </div>
 
 <main role="main" class="container">
-  <div class="row">
-    <div class="col-md-8 blog-main">
+  <div class="row justify-content-between">
+  <div class="col-md-8 blog-main">
         {% block body %}
         {% endblock body %}
     </div>
 
-    <aside class="col-md-4 blog-sidebar">
-     <div class="p-4 mb-3 bg-light rounded">
-        {% get_taglist as tags %}
-         {% for tag in tags %}
-
-             <a href="{% url "post_list_by_tag" tag.slug %}" class="badge badge-primary">
-                {{ tag.name }}
-             </a><br/>
-         {% endfor %}
-
-      </div>
-    </aside>
+    {% block sidebar %}
+    {% endblock %}
 
   </div>
 

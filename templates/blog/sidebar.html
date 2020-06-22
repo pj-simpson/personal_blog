@@ -1,0 +1,24 @@
+{% load taggit_templatetags2_tags %}
+
+
+<aside class="col-md-3 blog-sidebar">
+ <div class="p-4 mb-3 bg-light rounded text-right">
+    <h5>Tags:</h5>
+    {% get_taglist as tags %}
+     {% for tag in tags %}
+         <span class="oi oi-tag" title="oi-tag" aria-hidden="true"></span>
+             <a href="{% url "post_list_by_tag" tag.slug %}" class="badge badge-primary">
+                {{ tag.name }}
+             </a>
+
+        <br/>
+     {% endfor %}
+ </div>
+
+<div>
+    {% if user.is_authenticated and user.is_superuser %}
+     <a href="{% url 'post_create' %}" class="btn btn-outline-primary btn-lg offset-md-6">New Post</a>
+    {% endif %}
+</div>
+
+</aside>

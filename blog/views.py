@@ -27,6 +27,8 @@ class PostCreateView(PermissionRequiredMixin,CreateView):
 class PostListView(ListView):
     model = Post
     context_object_name = "post_list"
+    paginate_by = 5
+    ordering = ('-created')
 
     def get_queryset(self ,slug=None):
         qs = self.model.objects.all()

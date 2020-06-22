@@ -10,7 +10,7 @@
     <h2 class="blog-post-title">{{post.title}}</h2>
     <p class="blog-post-meta">{{post.created}} by {{post.author}}</p>
     <p class="blog-post-meta">
-      Tags:
+      <span class="oi oi-tags" title="oi-tags" aria-hidden="true"></span> Tags:
       {% for tag in post.tags.all %}
         <a href="{% url "post_list_by_tag" tag.slug %}">
           {{ tag.name }}
@@ -21,20 +21,33 @@
     {{ post.content|safe }}
 
     {% if similar_posts %}
-        {% for post in similar_posts %}
-            You may also like:
-          <p>
-            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-          </p>
-        {% endfor %}
+        You may also like:
+        <ul>
+            {% for post in similar_posts %}
+              <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+            {% endfor %}
+        </ul>
     {% endif %}
 
    {% if perms.blog.can_change_post %}
         <a class="btn btn-outline-danger" href="{% url "post_edit" post.pk %}">Edit</a>
     {% endif %}
 </div>
+
+
+    <hr>
+
+
+
+        {% include 'comments.html' with url=post.id %}
+
+
+
 {% endblock body %}
 
+{% block sidebar %}
+    {% include 'blog/sidebar.html' %}
+{% endblock %}
 
 
 
