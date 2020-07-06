@@ -3,10 +3,15 @@ from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-
+from django.views.generic.base import TemplateView
 from .models import Post
 from taggit.models import Tag
 
+class AboutView(TemplateView):
+    template_name = "about-page.html"
+
+class HomeView(TemplateView):
+    template_name = "home.html"
 
 class PostCreateView(PermissionRequiredMixin,CreateView):
     model = Post
