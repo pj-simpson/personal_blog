@@ -39,7 +39,7 @@ test:
     - flake8 .
     - black --check --exclude=migrations .
     - isort ./*/*.py --check-only
-    -
+
 deploy:
   stage: deploy
   services:
