@@ -1,14 +1,10 @@
-FROM python:3.8.2-alpine
+FROM python:3.8.2-alpine as builder
+
+RUN mkdir /code
+WORKDIR /code
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV DEBUG 0
-ENV SECRET_KEY (&c+ow8lns)b$_04vr_hvp(rh&-bhijnyqc0b+ro_@h4=@j%ke
-ENV DJANGO_ALLOWED_HOSTS .herokuapp.com
-
-RUN mkdir /code
-
-WORKDIR /code
 
 COPY requirements.txt /code/
 
@@ -22,10 +18,42 @@ RUN \
 
 COPY . /code/
 
+RUN flake8 .
+RUN black --exclude=migrations .
+RUN isort ./*/*.py
+
+# FINAL #
+
+FROM python:3.8.2-alpine as builder
+
+RUN mkdir /code
+WORKDIR /code
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV DEBUG 0
+ARG SECRET_KEY
+ENV SECRET_KEY $SECRET_KEY
+ENV DJANGO_ALLOWED_HOSTS .herokuapp.com
+
+RUN \
+ apk add --no-cache postgresql-libs && \
+ apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev && \
+ apk --update add libxml2-dev libxslt-dev libffi-dev gcc musl-dev libgcc openssl-dev curl && \
+ apk add jpeg-dev zlib-dev freetype-dev lcms2-dev openjpeg-dev tiff-dev tk-dev tcl-dev && \
+
+COPY --from=builder /usr/src/code/wheels /wheels
+COPY --from=builder /usr/src/code/requirements.txt .
+RUN pip install --upgrade pip
+RUN pip install --no-cache /wheels/*
+
+COPY . /usr/src/app/
+
 RUN python manage.py collectstatic --noinput
 
 RUN adduser -D myuser
 USER myuser
 
-# run gunicorn
 CMD gunicorn peter_blog.wsgi:application --bind 0.0.0.0:$PORT
+
+
