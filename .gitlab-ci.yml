@@ -44,6 +44,7 @@ test:
     - export DEBUG=0
     - export SECRET_KEY=$SECRET_KEY
     - python manage.py check --deploy --fail-level=WARNING
+    - echo $SECRET_KEY
 deploy:
   stage: deploy
   services:
