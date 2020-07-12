@@ -35,10 +35,10 @@ test:
     POSTGRES_USER: runner
     POSTGRES_PASSWORD: runner
     DATABASE_TEST_URL: postgres://runner:runner@postgres:5432/users
+    SECRET_KEY: $SECRET_KEY
+
   script:
     - export DEBUG=1
-    - SECRET_KEY = $SECRET_KEY
-    - export SECRET_KEY
     - pytest -p no:warnings
     - flake8 .
     - black --check --exclude="migrations|env" .
