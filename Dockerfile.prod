@@ -24,7 +24,7 @@ RUN isort ./*/*.py
 
 # FINAL #
 
-FROM python:3.8.2-alpine as builder
+FROM python:3.8.2-alpine
 
 RUN mkdir /code
 WORKDIR /code
