@@ -43,6 +43,7 @@ test:
     - black --check --exclude="migrations|env" .
     - isort ./*/*.py --check-only
     - export DEBUG=0
+    - echo $SECRET_KEY
     - python manage.py check --deploy --fail-level=WARNING
 deploy:
   stage: deploy
