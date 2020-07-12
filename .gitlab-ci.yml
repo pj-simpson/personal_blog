@@ -37,7 +37,8 @@ test:
     DATABASE_TEST_URL: postgres://runner:runner@postgres:5432/users
   script:
     - export DEBUG=1
-    - export SECRET_KEY = $SECRET_KEY
+    - SECRET_KEY = $SECRET_KEY
+    - export SECRET_KEY
     - pytest -p no:warnings
     - flake8 .
     - black --check --exclude="migrations|env" .
