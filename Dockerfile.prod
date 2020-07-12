@@ -40,8 +40,8 @@ RUN \
  apk add --no-cache postgresql-libs && \
  apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev
 
-COPY --from=builder /usr/src/code/wheels /wheels
-COPY --from=builder /usr/src/code/requirements.txt .
+COPY --from=builder /code/wheels /wheels
+COPY --from=builder /code/requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install --no-cache /wheels/*
 
