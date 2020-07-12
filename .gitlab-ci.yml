@@ -35,6 +35,7 @@ test:
     POSTGRES_USER: runner
     POSTGRES_PASSWORD: runner
     DATABASE_TEST_URL: postgres://runner:runner@postgres:5432/users
+    SECRET_KEY: $SECRET_KEY
   script:
     - export DEBUG=1
     - pytest -p no:warnings
@@ -42,9 +43,7 @@ test:
     - black --check --exclude="migrations|env" .
     - isort ./*/*.py --check-only
     - export DEBUG=0
-    - export SECRET_KEY=$SECRET_KEY
     - python manage.py check --deploy --fail-level=WARNING
-    - echo $SECRET_KEY
 deploy:
   stage: deploy
   services:
