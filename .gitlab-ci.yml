@@ -37,12 +37,12 @@ test:
     DATABASE_TEST_URL: postgres://runner:runner@postgres:5432/users
   script:
     - export DEBUG=1
+    - export SECRET_KEY = $SECRET_KEY
     - pytest -p no:warnings
     - flake8 .
     - black --check --exclude="migrations|env" .
     - isort ./*/*.py --check-only
     - export DEBUG=0
-    - echo $SECRET_KEY
     - python manage.py check --deploy --fail-level=WARNING
 deploy:
   stage: deploy
