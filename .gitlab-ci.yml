@@ -36,11 +36,14 @@ test:
     POSTGRES_PASSWORD: runner
     DATABASE_TEST_URL: postgres://runner:runner@postgres:5432/users
   script:
+    - python3.8 -m venv env
+    - source env/bin/activate
+    - pip install -r requirements.txt
+    - pip install black flake8 isort pytest pytest-django
     - export DEBUG=1
-    - export SECRET_KEY=$SECRET_KEY
-    - pytest -p no:warnings --cov=.
+    - pytest -p no:warnings
     - flake8 .
-    - black --check --exclude=migrations .
+    - black --check --exclude="migrations|env" .
     - isort ./*/*.py --check-only
     - export DEBUG=0
     - python manage.py check --deploy --fail-level=WARNING
