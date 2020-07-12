@@ -43,8 +43,7 @@ test:
     - black --check --exclude="migrations|env" .
     - isort ./*/*.py --check-only
     - export DEBUG=0
-    - echo $SECRET_KEY
-    - export DJANGO_SETTINGS_MODULE=peter_blog.settings
+    - export SECRET_KEY=$SECRET_KEY
     - python manage.py check --deploy --fail-level=WARNING
 deploy:
   stage: deploy
