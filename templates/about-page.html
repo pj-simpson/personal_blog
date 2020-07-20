@@ -1,10 +1,20 @@
 {% extends '_base.html' %}
+{% load static %}
 
 {% block title %}About{% endblock title %}
 
 {% block body %}
+
     <h1>About Page</h1>
+
+
         <p>
-            Placeholder
+            I'm a junior full-stack web developer. I have an interest in Python backends and in particular
+            the Django web framework. I have worked for many years as a third line support engineer, at both start-ups
+            and enterprise level SaaS platforms. Now looking for my first oppurtunity creating software,
+            as opposed to just helping to fix it!
         </p>
+
+    <img src="{% static 'img/ps.jpg' %}" width="50%">
+
 {% endblock body %}
