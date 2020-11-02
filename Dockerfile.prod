@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED 1
 ENV DEBUG 0
 ARG SECRET_KEY
 ENV SECRET_KEY $SECRET_KEY
-ENV DJANGO_ALLOWED_HOSTS .herokuapp.com
+ENV DJANGO_ALLOWED_HOSTS .herokuapp.com .petersimpson.dev
 
 COPY requirements.txt /code/
 
