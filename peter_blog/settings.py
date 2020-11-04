@@ -168,8 +168,8 @@ STATICFILES_FINDERS = [
 DEFAULT_FROM_EMAIL = "peter@petersimpson.dev"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL='/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"
 
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
@@ -226,4 +226,4 @@ if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_REFERRER_POLICY = "same-origin"
 
-ACCOUNT_ADAPTER = 'peter_blog.adapter.NoNewUsersAccountAdapter'
+ACCOUNT_ADAPTER = "peter_blog.adapter.NoNewUsersAccountAdapter"
