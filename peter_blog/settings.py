@@ -168,6 +168,9 @@ STATICFILES_FINDERS = [
 DEFAULT_FROM_EMAIL = "peter@petersimpson.dev"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL='/media/'
+
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
@@ -198,7 +201,8 @@ CKEDITOR_CONFIGS = {
                 "Anchor",
                 "SectionLink",
                 "Subscript",
-                "Superscript",
+                # "Superscript",
+                "Image",
             ],
             ["Undo", "Redo"],
             ["Source"],
@@ -221,3 +225,5 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_REFERRER_POLICY = "same-origin"
+
+ACCOUNT_ADAPTER = 'peter_blog.adapter.NoNewUsersAccountAdapter'
