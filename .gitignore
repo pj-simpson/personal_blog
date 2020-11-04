@@ -5,7 +5,15 @@
 __pycache__
 db.sqlite3
 media
-staticfiles/*
+
+
+staticfiles/admin
+staticfiles/ckeditor
+staticfiles/css
+staticfiles/img
+staticfiles/js
+staticfiles/taggit_templatetags2
+staticfiles/staticfiles.json
 
 # Backup files #
 *.bak
