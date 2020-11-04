@@ -14,6 +14,7 @@ staticfiles/img
 staticfiles/js
 staticfiles/taggit_templatetags2
 staticfiles/staticfiles.json
+rstaticfiles
 
 # Backup files #
 *.bak
