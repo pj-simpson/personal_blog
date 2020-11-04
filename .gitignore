@@ -7,14 +7,8 @@ db.sqlite3
 media
 
 
-staticfiles/admin
-staticfiles/ckeditor
-staticfiles/css
-staticfiles/img
-staticfiles/js
-staticfiles/taggit_templatetags2
-staticfiles/staticfiles.json
-rstaticfiles
+
+
 
 # Backup files #
 *.bak
