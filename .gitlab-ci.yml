@@ -38,6 +38,7 @@ test:
     SECRET_KEY: $SECRET_KEY
   script:
     - export DEBUG=1
+    - python manage.py collectstatic --noinput
     - pytest -p no:warnings
     - flake8 .
     - black --check --exclude="migrations|env" .
