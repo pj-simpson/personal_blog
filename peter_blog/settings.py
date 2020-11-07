@@ -199,6 +199,8 @@ CKEDITOR_CONFIGS = {
         ],
         "height": 300,
         "width": 675,
+        "allowedContent": True,
+        "extraAllowedContent": "*(*)",
     },
 }
 
