@@ -22,6 +22,8 @@ build:
         --tag $IMAGE:latest
         --file ./Dockerfile.prod
         --build-arg SECRET_KEY=$SECRET_KEY
+        --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+        --build-arg AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
         "."
     - docker push $IMAGE:latest
 
@@ -36,6 +38,8 @@ test:
     POSTGRES_PASSWORD: runner
     DATABASE_TEST_URL: postgres://runner:runner@postgres:5432/users
     SECRET_KEY: $SECRET_KEY
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
   script:
     - export DEBUG=1
     - python manage.py collectstatic --noinput
