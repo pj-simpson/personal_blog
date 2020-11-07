@@ -136,7 +136,7 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-USE_S3 = True
+USE_S3 = os.environ.get("USE_S3")
 
 
 # whitenoise serving our static  files, S3 serving our media
@@ -158,7 +158,6 @@ else:
     MEDIA_URL = "/media/"
 
 DEFAULT_FROM_EMAIL = "peter@petersimpson.dev"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
@@ -214,5 +213,6 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_REFERRER_POLICY = "same-origin"
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 ACCOUNT_ADAPTER = "peter_blog.adapter.NoNewUsersAccountAdapter"
