@@ -10,11 +10,11 @@ from taggit.models import Tag
 def test_post_list(add_user_all_permissions, add_post, client):
     user = add_user_all_permissions(username="username", password="testpass123")
     post1 = add_post(title="test 1", author=user, content="test test test")
-    post2 = add_post(title="test 2", author=user, content="test2 test2 test2")
+    post2 = add_post(title="test 2", author=user, content="test 2")
     response = client.get(reverse("post_list"))
     assert response.status_code == 200
     assert "test 1" in str(response.content)
-    assert "test2 test2 test2" in str(response.content)
+    assert "test 2" in str(response.content)
 
 
 @pytest.mark.django_db
