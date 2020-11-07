@@ -161,7 +161,6 @@ DEFAULT_FROM_EMAIL = "peter@petersimpson.dev"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
-
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 
