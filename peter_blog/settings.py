@@ -11,7 +11,6 @@ DEBUG = int(os.environ.get("DEBUG", default=0))
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -27,7 +26,7 @@ INSTALLED_APPS = [
     "ckeditor_uploader",
     "taggit",
     "taggit_templatetags2",
-    'storages',
+    "storages",
     "users.apps.UsersConfig",
     "blog.apps.BlogConfig",
 ]
@@ -87,7 +86,6 @@ TEMPLATES = [
 WSGI_APPLICATION = "peter_blog.wsgi.application"
 
 
-
 DATABASES = {
     "default": {
         "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
@@ -102,7 +100,6 @@ DATABASES = {
 DATABASE_URL = os.environ.get("DATABASE_URL")
 db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500)
 DATABASES["default"].update(db_from_env)
-
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -139,30 +136,28 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-USE_S3 =  True
+USE_S3 = True
 
 
 # whitenoise serving our static  files, S3 serving our media
 if USE_S3:
     # aws settings
-    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+    AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+    AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
     AWS_DEFAULT_ACL = None
-    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+    AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
     # s3 public media settings
-    PUBLIC_MEDIA_LOCATION = 'media'
-    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
-    DEFAULT_FILE_STORAGE = 'peter_blog.storage_backends.PublicMediaStorage'
+    PUBLIC_MEDIA_LOCATION = "media"
+    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/"
+    DEFAULT_FILE_STORAGE = "peter_blog.storage_backends.PublicMediaStorage"
 else:
     MEDIA_ROOT = os.path.join(BASE_DIR, "media")
     MEDIA_URL = "/media/"
 
 DEFAULT_FROM_EMAIL = "peter@petersimpson.dev"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-
 
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
