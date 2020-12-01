@@ -38,10 +38,9 @@ class PostListView(ListView):
     model = Post
     context_object_name = "post_list"
     paginate_by = 5
-    ordering = "-created"
 
     def get_queryset(self, slug=None):
-        qs = self.model.objects.all()
+        qs = self.model.objects.all().order_by("-created")
         tag = self.kwargs.get("tag_slug")
         if tag:
             tag_slug = get_object_or_404(Tag, slug=tag.lower())

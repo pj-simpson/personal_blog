@@ -171,7 +171,8 @@ CKEDITOR_IMAGE_BACKEND = "pillow"
 
 CKEDITOR_CONFIGS = {
     "default": {
-        "toolbar": [
+        "toolbar": "Custom",
+        "toolbar_Custom": [
             ["Format", "Bold", "Italic", "Underline", "Strike", "SpellChecker"],
             [
                 "NumberedList",
@@ -192,6 +193,7 @@ CKEDITOR_CONFIGS = {
                 "Subscript",
                 "CodeSnippet",
                 "Image",
+                "Blockquote",
             ],
             ["Undo", "Redo"],
             ["Source"],
