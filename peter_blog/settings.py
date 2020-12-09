@@ -10,8 +10,14 @@ DEBUG = int(os.environ.get("DEBUG", default=0))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
+# Scout settings
+SCOUT_MONITOR = True
+SCOUT_KEY = os.environ.get("SCOUT_KEY", default=0)
+SCOUT_NAME = "PETERS PERSONAL PORTFOLIO"
+
 
 INSTALLED_APPS = [
+    "scout_apm.django",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

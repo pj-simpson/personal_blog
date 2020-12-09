@@ -63,6 +63,7 @@ deploy:
     - docker build
         --tag $HEROKU_REGISTRY_IMAGE
         --file ./Dockerfile.prod
+        --build-arg SCOUT_KEY=$SCOUT_KEY
         --build-arg SECRET_KEY=$SECRET_KEY
         --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
         --build-arg AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
