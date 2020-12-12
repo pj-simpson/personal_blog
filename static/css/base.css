@@ -134,4 +134,11 @@ blockquote {
     color: #888;
     background: #eeeeee;
     border-left:5px solid #28323d;
+    word-break: break-all;
+}
+
+body {
+ font-family: 'IBM Plex Sans', sans-serif;
+font-family: 'Source Sans Pro', sans-serif;
+
 }
