@@ -67,10 +67,10 @@ def test_post_create_without_logged_in(client):
 
 @pytest.mark.django_db
 def test_post_create_without_permissions(add_user_no_permissions, client):
-    user = add_user_no_permissions(username="username", password="testpass123")
-    client.login(username="username", password="testpass123")
+    user = add_user_no_permissions(username="username1", password="testpass1234")
+    client.login(username="username1", password="testpass1234")
     response_1 = client.get(reverse("post_create"))
-    assert response_1.status_code == 403
+    assert response_1.status_code == 302
 
     response_2 = client.post(
         reverse("post_create"),
@@ -80,7 +80,7 @@ def test_post_create_without_permissions(add_user_no_permissions, client):
             "tags": "tag 1",
         },
     )
-    assert response_2.status_code == 403
+    assert response_2.status_code == 302
 
 
 @pytest.mark.django_db

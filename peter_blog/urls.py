@@ -3,11 +3,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from blog.views import AboutView, HomeView
+from blog.views import about_page_view, home_page_view
 
 urlpatterns = [
-    path("", HomeView.as_view(), name="home"),
-    path("about/", AboutView.as_view(), name="about"),
+    path("", home_page_view, name="home"),
+    path("about/", about_page_view, name="about"),
     path("crazy_admin_969/", admin.site.urls),
     path("blog/", include("blog.urls")),
     path("accounts/", include("allauth.urls")),

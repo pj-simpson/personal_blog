@@ -127,14 +127,14 @@ h1, h2, h3, h4, h5, h6
 }
 
 blockquote {
-    max-width: 550px;
+    max-width: 660px;
     text-align: center;
     margin: 20px;
     padding: 20px;
     color: #888;
     background: #eeeeee;
     border-left:5px solid #28323d;
-    word-break: break-all;
+    word-break: break-word;
 }
 
 body {
