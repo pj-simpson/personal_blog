@@ -15,32 +15,46 @@
         </nav>
     {% endif %}
 
+    {% if draft %}
+        <div class="alert alert-danger">
+             <h3>Drafts</h3>
+            <a style="text-align: right" href="{%  url 'post_list' %}">Back To Live...</a>
+        </div>
+    {% endif %}
+
 <div class="infinite-container">
+
 
     {% for post in post_list %}
 
-    <div class="infinite-item row mb-2">
-        <div class="col-md-12">
-            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                        <h3 class="mb-0">{{post.title}}</h3>
-                        <div class="mb-1 text-muted">{{post.created}}</div>
-                             <p class="card-text mb-auto">{{post.content|striptags|nbsp|slice:':157'}}</p>
-                    <a href="{{ post.get_absolute_url }}" class="stretched-link">Continue reading...</a>
+        {% if post.draft and not user.is_authenticated and not user.is_superuser %}
+        {% else %}
+            <div class="infinite-item row mb-2">
+            <div class="col-md-12">
+                <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                            <h3 class="mb-0">{{post.title}}</h3>
+                            <div class="mb-1 text-muted">{{post.created}}</div>
+                            <p class="card-text mb-auto">{{post.headline}}</p>
+                            {% if post.draft %}
+                                <p class="draft-warning"><s>This post is currently a draft!</s></p>
+                            {% endif %}
+                        <a href="{{ post.get_absolute_url }}" class="stretched-link">Continue reading...</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    {% empty %}
-    <div class="row mb-2">
-        <div class="col-md-6">
-            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                        <h3 class="mb-0">No posts yet...</h3>
+        {% endif %}
+        {% empty %}
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                            <h3 class="mb-0">No posts yet...</h3>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     {% endfor %}
 </div>
 

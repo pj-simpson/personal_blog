@@ -19,9 +19,12 @@ class UUIDTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
         verbose_name_plural = _("Tags")
 
 
+
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=200)
+    headline = models.CharField(max_length=400, null=True)
+    draft = models.BooleanField(default=True)
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     content = RichTextUploadingField()
     created = models.DateTimeField(auto_now_add=True)

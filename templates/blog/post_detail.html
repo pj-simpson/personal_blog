@@ -6,7 +6,12 @@
 {% endblock %}
 
 {% block body %}
-<div class="blog-post">
+
+    {% if post.draft and not user.is_authenticated and not user.is_superuser %}
+        Whoops! Looks like you are trying to view a blog post that you dont have permission to!
+        {% else %}
+
+        <div class="blog-post">
     <h2 class="blog-post-title">{{post.title}}</h2>
     <p class="blog-post-meta">{{post.created}} by {{post.author}}</p>
     <p class="blog-post-meta">
@@ -30,7 +35,8 @@
     {% endif %}
 
    {% if perms.blog.can_change_post %}
-        <a class="btn btn-outline-danger" href="{% url "post_edit" post.pk %}">Edit</a>
+        <a class="btn btn-outline-warning" href="{% url "post_edit" post.pk %}">Edit</a>
+       <a id="postDelete" class="btn btn-outline-danger" href="{% url 'post_delete' post.pk%}">Delete</a>
     {% endif %}
 </div>
 
@@ -40,6 +46,8 @@
 
 
         {% include 'comments.html' with url=post.id %}
+
+    {% endif %}
 
 
 

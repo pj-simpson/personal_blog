@@ -104,8 +104,23 @@ h1, h2, h3, h4, h5, h6
     float: right;
 }
 
+.btn-primary {
+    float: right;
+}
+
+.form-check {
+    float:right;
+}
+
 .btn-outline-danger {
     float: right;
+    margin-right: 1em;
+
+}
+
+.btn-outline-warning {
+    float: right;
+
 }
 
 /*
@@ -141,4 +156,15 @@ body {
  font-family: 'IBM Plex Sans', sans-serif;
 font-family: 'Source Sans Pro', sans-serif;
 
+}
+
+.django-ckeditor-widget{
+
+}
+
+.draft-warning {
+    transform: rotate(-45deg);
+    text-align: center;
+    color: red;
+    padding-left: 5em;
 }

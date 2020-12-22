@@ -36,35 +36,40 @@ def post_create_view(request):
     return TemplateResponse(request, "blog/post_form.html", {"form": new_post_form})
 
 
-def post_list_view(request):
+def _post_list_displayer(request, posts, context=None):
 
-    posts = Post.objects.all().order_by("-created")
+    if context is None:
+        context = {}
+
     paginator = Paginator(posts, 5)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
+    context['page_obj'] = page_obj
+    context['post_list'] = posts
 
     return TemplateResponse(
-        request, "blog/post_list.html", {"post_list": posts, "page_obj": page_obj}
+        request, "blog/post_list.html", context
     )
+
+def post_list_view(request):
+
+    posts = Post.objects.all().filter(draft=False).order_by("-created")
+    return _post_list_displayer(request,posts)
 
 
 def post_list_view_by_tag(request, tag_slug: str):
 
-    if tag_slug:
-        tag = get_object_or_404(Tag, slug=tag_slug.lower())
-        posts = Post.objects.all().order_by("-created").filter(tags__in=[tag])
-    else:
-        posts = Post.objects.all().order_by("-created")
+    tag = get_object_or_404(Tag, slug=tag_slug.lower())
+    posts = Post.objects.all().order_by("-created").filter(tags__in=[tag])
+    context = {"tag": tag_slug}
 
-    paginator = Paginator(posts, 5)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+    return _post_list_displayer(request, posts, context)
 
-    return TemplateResponse(
-        request,
-        "blog/post_list.html",
-        {"post_list": posts, "page_obj": page_obj, "tag": tag_slug},
-    )
+@permission_required("blog.change_blog")
+def drafts_list_view(request):
+
+    posts = Post.objects.all().filter(draft=True).order_by("-created")
+    return _post_list_displayer(request,posts)
 
 
 def post_detail_view(request, pk: int):
@@ -101,6 +106,12 @@ def post_update_view(request, pk: int):
     return TemplateResponse(
         request, "blog/post_form.html", {"form": new_post_form, "post": post}
     )
+
+@permission_required("blog.delete_blog")
+def post_delete_view(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.delete()
+    return redirect('post_list')
 
 
 # class HomeView(TemplateView):
