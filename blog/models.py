@@ -19,7 +19,6 @@ class UUIDTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
         verbose_name_plural = _("Tags")
 
 
-
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=200)

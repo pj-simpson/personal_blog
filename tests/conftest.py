@@ -30,8 +30,10 @@ def add_user_all_permissions(django_user_model):
 
 @pytest.fixture(scope="function")
 def add_post():
-    def _add_post(title, author, content):
-        post = Post.objects.create(title=title, author=author, content=content)
+    def _add_post(title, author, content, headline, draft):
+        post = Post.objects.create(
+            title=title, author=author, content=content, headline=headline, draft=draft
+        )
         return post
 
     return _add_post

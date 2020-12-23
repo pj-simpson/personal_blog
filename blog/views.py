@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import user_passes_test
 from django.core.paginator import Paginator
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
@@ -18,7 +18,7 @@ def home_page_view(request):
     return render(request, "home.html")
 
 
-@permission_required("blog.add_blog")
+@user_passes_test(lambda u: u.is_superuser)
 def post_create_view(request):
 
     if request.method == "POST":
@@ -44,17 +44,16 @@ def _post_list_displayer(request, posts, context=None):
     paginator = Paginator(posts, 5)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    context['page_obj'] = page_obj
-    context['post_list'] = posts
+    context["page_obj"] = page_obj
+    context["post_list"] = posts
 
-    return TemplateResponse(
-        request, "blog/post_list.html", context
-    )
+    return TemplateResponse(request, "blog/post_list.html", context)
+
 
 def post_list_view(request):
 
     posts = Post.objects.all().filter(draft=False).order_by("-created")
-    return _post_list_displayer(request,posts)
+    return _post_list_displayer(request, posts)
 
 
 def post_list_view_by_tag(request, tag_slug: str):
@@ -65,11 +64,12 @@ def post_list_view_by_tag(request, tag_slug: str):
 
     return _post_list_displayer(request, posts, context)
 
-@permission_required("blog.change_blog")
+
+@user_passes_test(lambda u: u.is_superuser)
 def drafts_list_view(request):
 
     posts = Post.objects.all().filter(draft=True).order_by("-created")
-    return _post_list_displayer(request,posts)
+    return _post_list_displayer(request, posts)
 
 
 def post_detail_view(request, pk: int):
@@ -87,7 +87,7 @@ def post_detail_view(request, pk: int):
     )
 
 
-@permission_required("blog.change_blog")
+@user_passes_test(lambda u: u.is_superuser)
 def post_update_view(request, pk: int):
     post = get_object_or_404(Post, pk=pk)
 
@@ -107,11 +107,12 @@ def post_update_view(request, pk: int):
         request, "blog/post_form.html", {"form": new_post_form, "post": post}
     )
 
-@permission_required("blog.delete_blog")
+
+@user_passes_test(lambda u: u.is_superuser)
 def post_delete_view(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
-    return redirect('post_list')
+    return redirect("post_list")
 
 
 # class HomeView(TemplateView):
