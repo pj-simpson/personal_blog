@@ -25,7 +25,7 @@
 <div class="infinite-container">
 
 
-    {% for post in post_list %}
+    {% for post in page_obj.object_list %}
 
         {% if post.draft and not user.is_authenticated and not user.is_superuser %}
         {% else %}

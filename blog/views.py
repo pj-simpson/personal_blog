@@ -45,7 +45,6 @@ def _post_list_displayer(request, posts, context=None):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     context["page_obj"] = page_obj
-    context["post_list"] = posts
 
     return TemplateResponse(request, "blog/post_list.html", context)
 

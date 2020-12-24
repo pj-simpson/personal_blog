@@ -159,7 +159,7 @@ font-family: 'Source Sans Pro', sans-serif;
 }
 
 .django-ckeditor-widget{
-
+    display: flex !important;
 }
 
 .draft-warning {
@@ -168,3 +168,14 @@ font-family: 'Source Sans Pro', sans-serif;
     color: red;
     padding-left: 5em;
 }
+
+.blog-post  img {
+    height: 100% !important;
+    width:100% !important;
+}
+
+.blog-post img:hover {
+    height:unset;
+    width:unset;
+}
+
