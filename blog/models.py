@@ -7,6 +7,8 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from taggit.managers import TaggableManager
 from taggit.models import GenericUUIDTaggedItemBase, TaggedItemBase
+from django.db.models import Count
+
 
 
 class UUIDTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
@@ -17,6 +19,14 @@ class UUIDTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
     class Meta:
         verbose_name = _("Tag")
         verbose_name_plural = _("Tags")
+
+class DraftPostsManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(draft=True).order_by("-created")
+
+class LivePostsManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(draft=False).order_by("-created")
 
 
 class Post(models.Model):
@@ -29,9 +39,16 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     tags = TaggableManager(through=UUIDTaggedItem)
+    objects = models.Manager()
+    live_posts = LivePostsManager()
+    draft_posts = DraftPostsManager()
 
     def __str__(self):
-        return self.title
+            return self.title
 
     def get_absolute_url(self):
         return reverse("post_detail", args=[str(self.id)])
+
+    def get_tag_ids(self):
+        return self.tags.values_list("id", flat=True)
+

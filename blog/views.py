@@ -17,25 +17,6 @@ def about_page_view(request):
 def home_page_view(request):
     return render(request, "home.html")
 
-
-@user_passes_test(lambda u: u.is_superuser)
-def post_create_view(request):
-
-    if request.method == "POST":
-        new_post_form = PostForm(request.POST)
-        if new_post_form.is_valid():
-            tagslist = new_post_form.cleaned_data["tags"]
-            new_post = new_post_form.save(commit=False)
-            user = get_user_model()
-            new_post.author = user.objects.get(username=request.user.username)
-            new_post.tags.add(*tagslist)
-            new_post.save()
-            return redirect("post_list")
-    else:
-        new_post_form = PostForm()
-    return TemplateResponse(request, "blog/post_form.html", {"form": new_post_form})
-
-
 def _post_list_displayer(request, posts, context=None):
 
     if context is None:
@@ -51,14 +32,14 @@ def _post_list_displayer(request, posts, context=None):
 
 def post_list_view(request):
 
-    posts = Post.objects.all().filter(draft=False).order_by("-created")
+    posts = Post.live_posts.all()
     return _post_list_displayer(request, posts)
 
 
 def post_list_view_by_tag(request, tag_slug: str):
 
     tag = get_object_or_404(Tag, slug=tag_slug.lower())
-    posts = Post.objects.all().order_by("-created").filter(tags__in=[tag])
+    posts = Post.live_posts.filter(tags__in=[tag])
     context = {"tag": tag_slug}
 
     return _post_list_displayer(request, posts, context)
@@ -67,23 +48,47 @@ def post_list_view_by_tag(request, tag_slug: str):
 @user_passes_test(lambda u: u.is_superuser)
 def drafts_list_view(request):
 
-    posts = Post.objects.all().filter(draft=True).order_by("-created")
+    posts = Post.draft_posts.all()
     return _post_list_displayer(request, posts)
+
+
+def _similar_post_retriver(post,tag_ids_list):
+        similar_posts = Post.objects.filter(tags__in=tag_ids_list).exclude(id=post.id)
+        return similar_posts.annotate(same_tags=Count("tags")).order_by(
+            "-same_tags", "-created"
+        )[:2]
 
 
 def post_detail_view(request, pk: int):
 
     post = get_object_or_404(Post, id=pk)
-
-    post_tags_ids = post.tags.values_list("id", flat=True)
-    similar_posts = Post.objects.filter(tags__in=post_tags_ids).exclude(id=pk)
-    similar_posts = similar_posts.annotate(same_tags=Count("tags")).order_by(
-        "-same_tags", "-created"
-    )[:2]
+    tags = post.get_tag_ids()
+    similar_posts = _similar_post_retriver(post,tags)
 
     return TemplateResponse(
         request, "blog/post_detail.html", {"post": post, "similar_posts": similar_posts}
     )
+
+
+def _post_form_process(form,request):
+    tagslist = form.cleaned_data["tags"]
+    new_post = form.save(commit=False)
+    user = get_user_model()
+    new_post.author = user.objects.get(username=request.user.username)
+    new_post.tags.add(*tagslist)
+    new_post.save()
+    return redirect("post_list")
+
+@user_passes_test(lambda u: u.is_superuser)
+def post_create_view(request):
+
+    if request.method == "POST":
+        new_post_form = PostForm(request.POST)
+        if new_post_form.is_valid():
+            return _post_form_process(new_post_form,request)
+    else:
+        new_post_form = PostForm()
+    return TemplateResponse(request, "blog/post_form.html", {"form": new_post_form})
 
 
 @user_passes_test(lambda u: u.is_superuser)
@@ -93,13 +98,7 @@ def post_update_view(request, pk: int):
     if request.method == "POST":
         new_post_form = PostForm(request.POST, instance=post)
         if new_post_form.is_valid():
-            tagslist = new_post_form.cleaned_data["tags"]
-            new_post = new_post_form.save(commit=False)
-            user = get_user_model()
-            new_post.author = user.objects.get(username=request.user.username)
-            new_post.tags.set(*tagslist)
-            new_post.save()
-            return redirect("post_list")
+            return _post_form_process(new_post_form,request)
     else:
         new_post_form = PostForm(instance=post)
     return TemplateResponse(
