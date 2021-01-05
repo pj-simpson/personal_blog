@@ -249,7 +249,7 @@ def test_post_detail(add_user_all_permissions, add_post, client):
         headline="headline",
         draft=False,
     )
-    response = client.get(reverse("post_detail", kwargs={"pk": post.pk}))
+    response = client.get(reverse("post_detail", kwargs={"slug": post.slug}))
     assert response.status_code == 200
 
 
@@ -311,7 +311,7 @@ def test_post_edit_without_permissions(
         },
     )
     assert response_2.status_code == 302
-    response_3 = client.get(reverse("post_detail", kwargs={"pk": post.pk}))
+    response_3 = client.get(reverse("post_detail", kwargs={"slug": post.slug}))
     assert "test title" not in str(response_3.content)
 
 
@@ -384,7 +384,7 @@ def test_post_delete_without_permissions(
     client.login(username="username_2", password="testpass123")
     response_1 = client.get(reverse("post_delete", kwargs={"pk": post.pk}))
     assert response_1.status_code == 302
-    response_2 = client.get(reverse("post_detail", kwargs={"pk": post.pk}))
+    response_2 = client.get(reverse("post_detail", kwargs={"slug": post.slug}))
     assert response_2.status_code == 200
 
 
@@ -403,5 +403,5 @@ def test_post_delete_with_permissions(add_user_all_permissions, add_post, client
     client.login(username="username", password="testpass123")
     response_1 = client.get(reverse("post_delete", kwargs={"pk": post.pk}))
     assert response_1.status_code == 302
-    response_2 = client.get(reverse("post_detail", kwargs={"pk": post.pk}))
+    response_2 = client.get(reverse("post_detail", kwargs={"slug": post.slug}))
     assert response_2.status_code == 404
