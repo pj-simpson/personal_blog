@@ -179,3 +179,7 @@ font-family: 'Source Sans Pro', sans-serif;
     width:unset;
 }
 
+.hljs {
+    overflow-x: auto!important;
+}
+
