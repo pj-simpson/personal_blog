@@ -68,6 +68,7 @@ deploy:
         --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
         --build-arg AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
         "."
+    - docker logout
     - docker login -u _ -p $HEROKU_AUTH_TOKEN registry.heroku.com
     - docker push $HEROKU_REGISTRY_IMAGE
     - chmod +x ./release.sh
