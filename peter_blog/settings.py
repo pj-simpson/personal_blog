@@ -152,13 +152,13 @@ if USE_S3:
     AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
     AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
     AWS_DEFAULT_ACL = None
-    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+    AWS_S3_ENDPOINT_URL = "https://fra1.digitaloceanspaces.com"
     AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
     AWS_QUERYSTRING_AUTH = False
 
     # s3 public media settings
     PUBLIC_MEDIA_LOCATION = "media"
-    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/"
+    MEDIA_URL = f"https://{AWS_S3_ENDPOINT_URL}/{PUBLIC_MEDIA_LOCATION}/"
     DEFAULT_FILE_STORAGE = "peter_blog.storage_backends.PublicMediaStorage"
 else:
     MEDIA_ROOT = os.path.join(BASE_DIR, "media")
