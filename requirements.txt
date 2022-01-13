@@ -33,7 +33,7 @@ more-itertools==8.6.0
 oauthlib==3.1.0
 packaging==20.7
 pathspec==0.8.1
-Pillow==8.3.2
+Pillow==9.0.0
 pluggy==0.13.1
 psutil==5.7.3
 psycopg2-binary==2.8.5
