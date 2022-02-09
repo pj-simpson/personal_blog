@@ -27,7 +27,22 @@ class DraftPostsManager(models.Manager):
 
 class LivePostsManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(draft=False).order_by("-created")
+        return (
+            super()
+            .get_queryset()
+            .filter(draft=False, portfolio=False)
+            .order_by("-created")
+        )
+
+
+class PortfolioPostsManager(models.Manager):
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .filter(draft=False, portfolio=True)
+            .order_by("-created")
+        )
 
 
 class Post(models.Model):
@@ -35,6 +50,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     headline = models.CharField(max_length=400, null=True)
     draft = models.BooleanField(default=True)
+    portfolio = models.BooleanField(default=False)
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     content = RichTextUploadingField()
     created = models.DateTimeField(auto_now_add=True)
@@ -44,6 +60,7 @@ class Post(models.Model):
     objects = models.Manager()
     live_posts = LivePostsManager()
     draft_posts = DraftPostsManager()
+    portfolio_posts = PortfolioPostsManager()
 
     def __str__(self):
         return self.title

@@ -3,6 +3,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+    <meta name=”viewport” content=”width=device-width, initial-scale=1.0">
     <link rel="icon" href="{% static 'img/favicon.ico' %}">
   <title>{% block title %}Peter's Site{% endblock title %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -37,11 +38,6 @@
           </li>
         </ul>
       {% else %}
-{#          The blog is just for me so we dont want people signing up!#}
-{#        <form class="form-inline ml-auto my-2">#}
-{#          <a href="{% url 'account_login' %}" class="btn btn-outline-secondary" >Log in</a>#}
-{#          <a href="{% url 'account_signup' %}" class="btn btn-primary ml-2">Sign up</a>#}
-{#        </form>#}
       {% endif %}
       </div>
     </div>
@@ -49,12 +45,14 @@
 
   <div class="nav-scroller py-1 mb-2">
     <nav class="nav d-flex justify-content-between">
-      <a class="p-2 text-muted" href="{% url 'post_list' %}">Blog</a>
+        <a class="p-2 text-muted" href="{% url 'post_list' %}">Blog</a>
+        <a class="p-2 text-muted" href="{% url 'portfolio' %}">Portfolio</a>
         {% if user.is_authenticated and user.is_superuser %}
             <a class="p-2 text-muted" href="{% url 'drafts' %}">Drafts</a>
         {% endif %}
-      <a class="p-2 text-muted" href="{% url 'about' %}">About</a>
-      <a class="p-2 text-muted" href="https://github.com/pj-simpson">Github</a>
+        <a class="p-2 text-muted" href="{% url 'about' %}">About</a>
+        <a class="p-2 text-muted" href="https://github.com/pj-simpson">Github</a>
+        <a class="p-2 text-muted" href="https://stackoverflow.com/users/14716166/pj-simpo">Stack Overflow</a>
     </nav>
   </div>
 </div>

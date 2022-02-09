@@ -7,14 +7,11 @@ import django.db.models.manager
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0005_auto_20201222_1930'),
+        ("blog", "0005_auto_20201222_1930"),
     ]
 
     operations = [
         migrations.AlterModelManagers(
-            name='post',
-            managers=[
-                ('live_posts', django.db.models.manager.Manager()),
-            ],
+            name="post", managers=[("live_posts", django.db.models.manager.Manager()),],
         ),
     ]

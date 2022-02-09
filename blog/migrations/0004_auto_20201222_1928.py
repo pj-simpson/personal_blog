@@ -7,19 +7,16 @@ import django.db.models.manager
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0003_auto_20201222_1911'),
+        ("blog", "0003_auto_20201222_1911"),
     ]
 
     operations = [
         migrations.AlterModelManagers(
-            name='post',
-            managers=[
-                ('live_posts', django.db.models.manager.Manager()),
-            ],
+            name="post", managers=[("live_posts", django.db.models.manager.Manager()),],
         ),
         migrations.AlterField(
-            model_name='post',
-            name='headline',
+            model_name="post",
+            name="headline",
             field=models.CharField(max_length=400, null=True),
         ),
     ]
