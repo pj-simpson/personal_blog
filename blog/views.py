@@ -40,7 +40,7 @@ def post_list_view(request):
 def post_list_view_by_tag(request, tag_slug: str):
 
     tag = get_object_or_404(Tag, slug=tag_slug.lower())
-    posts = Post.live_posts.filter(tags__in=[tag])
+    posts = Post.live_posts.filter(tags__in=[tag]).exclude(draft=True)
     context = {"tag": tag_slug}
 
     return _post_list_displayer(request, posts, context)
@@ -60,7 +60,11 @@ def portfolio_list_view(request):
 
 
 def _similar_post_retriver(post, tag_ids_list):
-    similar_posts = Post.objects.filter(tags__in=tag_ids_list).exclude(id=post.id)
+    similar_posts = (
+        Post.objects.filter(tags__in=tag_ids_list)
+        .exclude(id=post.id)
+        .exclude(draft=True)
+    )
     return similar_posts.annotate(same_tags=Count("tags")).order_by(
         "-same_tags", "-created"
     )[:2]
