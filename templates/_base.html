@@ -45,14 +45,13 @@
 
   <div class="nav-scroller py-1 mb-2">
     <nav class="nav d-flex justify-content-between">
+        <a class="p-2 text-muted" href="{% url 'about' %}">About</a>
         <a class="p-2 text-muted" href="{% url 'post_list' %}">Blog</a>
         <a class="p-2 text-muted" href="{% url 'portfolio' %}">Portfolio</a>
         {% if user.is_authenticated and user.is_superuser %}
             <a class="p-2 text-muted" href="{% url 'drafts' %}">Drafts</a>
         {% endif %}
-        <a class="p-2 text-muted" href="{% url 'about' %}">About</a>
         <a class="p-2 text-muted" href="https://github.com/pj-simpson">Github</a>
-        <a class="p-2 text-muted" href="https://stackoverflow.com/users/14716166/pj-simpo">Stack Overflow</a>
     </nav>
   </div>
 </div>

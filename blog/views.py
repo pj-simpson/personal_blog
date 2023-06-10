@@ -15,7 +15,7 @@ def about_page_view(request):
 
 
 def home_page_view(request):
-    return render(request, "home.html")
+    return redirect("/about/",permanent=True)
 
 
 def _post_list_displayer(request, posts, context=None):
